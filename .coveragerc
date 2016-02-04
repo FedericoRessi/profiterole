@@ -26,3 +26,6 @@ ignore_errors = True
 
 [html]
 directory = report/html/coverage
+
+[xml]
+output = report/coverage.xml
