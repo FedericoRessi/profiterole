@@ -62,3 +62,7 @@ docs/_build/
 
 # pytest
 ptknows.dbm
+
+# pbr generates these
+AUTHORS
+ChangeLog
