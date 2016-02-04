@@ -13,4 +13,5 @@ install:
 
 script:
   - tox
+  - find .tox -name 'profit*'
   - coveralls
