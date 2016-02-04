@@ -2,4 +2,4 @@
 import logging
 
 
-logger = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)

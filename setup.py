@@ -69,4 +69,9 @@ setup(
 
     # TOX integration
     tests_require=['tox'],
-    cmdclass={'test': Tox})
+    cmdclass={'test': Tox},
+
+    # generate profit script
+    entry_points={
+        'console_scripts': [
+            'profit = profiterole.command:main']})
