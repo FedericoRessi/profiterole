@@ -12,10 +12,7 @@ def profit():
     '''
     Profiterole package module
     '''
-    profit_script = sh.which('profit')
-
-    return sh.coverage.run.bake(
-        '-p', profit_script, source="profiterole", omit="*/test*")
+    return sh.profit
 
 
 def test_main_from_shell(profit, version):
@@ -30,6 +27,16 @@ def test_main_with_argv_and_success(version):
     with mock.patch.object(command.sys, 'stdout') as stdout:
 
         result = command.main(['--version'])
+
+        assert 0 == result
+        stdout.write.assert_called_once_with(version + '\n')
+
+
+def test_main_without_argv_and_success(version):
+    with mock.patch.object(command.sys, 'stdout') as stdout:
+        with mock.patch.object(command.sys, 'argv', ['--version']):
+
+            result = command.main()
 
         assert 0 == result
         stdout.write.assert_called_once_with(version + '\n')
