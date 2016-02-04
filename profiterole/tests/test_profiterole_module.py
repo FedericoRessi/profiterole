@@ -3,7 +3,7 @@ Test profiterole main package.
 @author: Federico Ressi
 '''
 
-import pytest  # pylint: disable=no-name-in-module
+import pytest
 
 
 @pytest.fixture

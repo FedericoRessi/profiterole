@@ -12,6 +12,8 @@ import profiterole
 
 
 def main(argv=None):
+    'Profit main entry point.'
+
     if argv is None:
         argv = sys.argv
 
