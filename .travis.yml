@@ -13,7 +13,4 @@ install:
 
 script:
   - tox
-  - find | grep profit
-  - which profit
-  - profit --version
   - coveralls
