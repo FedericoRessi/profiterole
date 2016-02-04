@@ -1,42 +1,45 @@
 import mock
 import pytest
-import sh
 
 from profiterole import command
 
-from test_profiterole_module import version  # flake8: noqa
+from test_init import version  # flake8: noqa
 
 
 @pytest.fixture
-def profit():
-    '''
-    Profiterole package module
-    '''
-    return sh.profit
+def mocked_sys():
+    mocked = mock.patch.object(command, 'sys')
+    return mocked.start()
 
 
-def test_main_from_shell(profit, version):
-    'Test command line profit.'
+def test_main_without_argv_and_success(version, mocked_sys):
+    mocked_sys.argv = ['profit', '--version']
 
-    result = profit('--version')
+    result = command.main()
 
-    assert version + '\n' == result
-
-
-def test_main_with_argv_and_success(version):
-    with mock.patch.object(command.sys, 'stdout') as stdout:
-
-        result = command.main(['--version'])
-
-        assert 0 == result
-        stdout.write.assert_called_once_with(version + '\n')
+    assert 0 == result
+    mocked_sys.stdout.write.assert_called_once_with(version + '\n')
 
 
-def test_main_without_argv_and_success(version):
-    with mock.patch.object(command.sys, 'stdout') as stdout:
-        with mock.patch.object(command.sys, 'argv', ['--version']):
+def test_main_with_argv_and_success(version, mocked_sys):
 
-            result = command.main()
+    result = command.main(['profit', '--version'])
 
-        assert 0 == result
-        stdout.write.assert_called_once_with(version + '\n')
+    assert 0 == result
+    mocked_sys.stdout.write.assert_called_once_with(version + '\n')
+
+
+def test_main_with_no_args(mocked_sys):
+
+    result = command.main([])
+
+    assert 1 == result
+    mocked_sys.stdout.write.assert_called_once_with('Invalid command: \n')
+
+
+def test_get_sources(mocked_sys):
+
+    result = command.main(['profit', 'get-sources'])
+
+    assert 0 == result
+    assert False == mocked_sys.stdout.write.called
