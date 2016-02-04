@@ -13,5 +13,4 @@ install:
 
 script:
   - tox
-  - ls -lh .coverage*
-  - coveralls
+  - coveralls --rcfile=.coveragerc 

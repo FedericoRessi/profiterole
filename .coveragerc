@@ -1,6 +1,7 @@
 [run]
 branch = True
-omit = */tests/*
+omit = */tests/* 
+       */site-packages/*
 
 [report]
 # Regexes for lines to exclude from consideration
