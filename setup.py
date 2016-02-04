@@ -1,6 +1,8 @@
 
 
-import os
+import codecs
+from os import path
+
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
 
@@ -35,36 +37,68 @@ class Tox(TestCommand):  # pylint: disable=too-many-public-methods
         tox.cmdline(args=shlex.split(self.tox_args))
 
 
+def open_text_file(filename):
+    '''
+    Open a text file
+    '''
+    here = path.abspath(path.dirname(__file__))
+    # Get the long description from the README file
+    return codecs.open(path.join(here, filename), encoding='utf-8')
+
+
 def read(filename):
     '''
-    Reads a text file
+    Reads a text file.
     '''
-    with open(os.path.join(os.path.dirname(__file__), filename)) as f:
+    # Get the long description from the README file
+    with open_text_file(filename) as f:
         return f.read()
 
+def read_lines(filename):
+    '''
+    Reads a text file line per line.
+    '''
+    # Get the long description from the README file
+    with open_text_file(filename) as f:
+        return [l.strip() for l in f if l.strip()]
 
 setup(
     name="profiterole",
+
     version=profiterole.__version__,
+
+    description=
+        "Automate and standardize testing using a provisioned environment.",
+    long_description=read('README.md'),
+
+    url=profiterole.URL,
+
     author="Federico Ressi",
     author_email="federico.ressi@gmail.com",
-    description=(
-        "Automate and standardize testing using a provisioned environment."),
 
     license='Apache License 2.0',
-    keywords="strategy game",
-    url=profiterole.URL,
-    download_url=profiterole.URL + "/archive/master.zip",
 
-    # package content
-    packages=find_packages(),
-
-    long_description=read('README.md'),
+    # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Development Status :: 1 - Planning",
-        "Topic :: Games",
-        "License :: OSI Approved :: GPL3 License",
+        "Environment :: Console",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: Apache Software License",
+        "Natural Language :: English",
+        "Operating System :: Unix",
+        "Programming Language :: Python",
+        "Topic :: Software Development :: Testing",
     ],
+
+    keywords="testing automation provisioning",
+
+    # package content
+    packages=find_packages(exclude=['docs', 'tests']),
+
+    install_requires=read('requirements.txt'),
+
+    download_url=profiterole.URL + "/archive/master.zip",
+
     platforms=["Linux", "Mac OS-X"],
 
     # TOX integration
@@ -74,4 +108,4 @@ setup(
     # generate profit script
     entry_points={
         'console_scripts': [
-            'profit = profiterole.command:main']})
+            'profit=profiterole.command:main']})
