@@ -9,8 +9,8 @@ virtualenv:
   system_site_packages: true
 
 install:
-  - pip install tox python-coveralls
+  - pip install -U tox coveralls
 
 script:
   - tox
-  - coveralls
+  - coveralls --rcfile=.coveragerc
